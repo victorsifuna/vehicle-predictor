@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Emission Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .form-group, .btn {
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 10px;
+            background-color: #00d4ff;
+            color: #fff;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #ffdd57;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Car Emission Prediction</h1>
+
+    <!-- Display the form for user input -->
+    <form method="POST">
+        <div class="form-group">
+            <label for="mpg">Miles per Gallon (MPG):</label>
+            <input type="number" step="0.1" id="mpg" name="mpg" required>
+        </div>
+        <div class="form-group">
+            <label for="cylinders">Cylinders:</label>
+            <input type="number" id="cylinders" name="cylinders" required>
+        </div>
+        <div class="form-group">
+            <label for="displacement">Displacement:</label>
+            <input type="number" step="0.1" id="displacement" name="displacement" required>
+        </div>
+        <div class="form-group">
+            <label for="horsepower">Horsepower:</label>
+            <input type="number" step="0.1" id="horsepower" name="horsepower" required>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight:</label>
+            <input type="number" step="0.1" id="weight" name="weight" required>
+        </div>
+        <div class="form-group">
+            <label for="acceleration">Acceleration:</label>
+            <input type="number" step="0.1" id="acceleration" name="acceleration" required>
+        </div>
+        <div class="form-group">
+            <label for="year">Model Year:</label>
+            <input type="number" id="year" name="year" required>
+        </div>
+        <div class="form-group">
+            <label for="origin">Origin:</label>
+            <select id="origin" name="origin" required>
+                <option value="1">USA</option>
+                <option value="2">Europe</option>
+                <option value="3">Japan</option>
+            </select>
+        </div>
+        <button type="submit" class="btn">Predict Emission</button>
+    </form>
+
+    <!-- Display the prediction result if available -->
+    {% if predicted_emission %}
+    <h3>Predicted Emission for Your Car: {{ predicted_emission }}</h3>
+    
+    <!-- Display the chart for cars with similar emissions -->
+    <h4>Cars with Similar Emissions</h4>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>MPG</th>
+            <th>Cylinders</th>
+            <th>Displacement</th>
+            <th>Horsepower</th>
+            <th>Weight</th>
+            <th>Acceleration</th>
+            <th>Year</th>
+            <th>Origin</th>
+            <th>Predicted Emission</th>
+        </tr>
+        {% for car in similar_cars %}
+        <tr>
+            <td>{{ car['name'] }}</td>
+            <td>{{ car['mpg'] }}</td>
+            <td>{{ car['cylinders'] }}</td>
+            <td>{{ car['displacement'] }}</td>
+            <td>{{ car['horsepower'] }}</td>
+            <td>{{ car['weight'] }}</td>
+            <td>{{ car['acceleration'] }}</td>
+            <td>{{ car['year'] }}</td>
+            <td>{{ car['origin'] }}</td>
+            <td>{{ car['predicted_emission'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <!-- Display the chart for top 20 low-emission cars -->
+    <h4>Top 20 Cars with Low Predicted Emissions</h4>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>MPG</th>
+            <th>Cylinders</th>
+            <th>Displacement</th>
+            <th>Horsepower</th>
+            <th>Weight</th>
+            <th>Acceleration</th>
+            <th>Year</th>
+            <th>Origin</th>
+            <th>Predicted Emission</th>
+        </tr>
+        {% for car in top_20_cars %}
+        <tr>
+            <td>{{ car['name'] }}</td>
+            <td>{{ car['mpg'] }}</td>
+            <td>{{ car['cylinders'] }}</td>
+            <td>{{ car['displacement'] }}</td>
+            <td>{{ car['horsepower'] }}</td>
+            <td>{{ car['weight'] }}</td>
+            <td>{{ car['acceleration'] }}</td>
+            <td>{{ car['year'] }}</td>
+            <td>{{ car['origin'] }}</td>
+            <td>{{ car['predicted_emission'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
